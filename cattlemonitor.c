@@ -1,52 +1,39 @@
 #include <reg51.h>
 #include <lcd.h>
-
 #define temp_sensor P1_0
 #define accel_x P1_1
 #define accel_y P1_2
 #define accel_z P1_3
 #define buzzer P3_0
-
 void delay_ms(unsigned int ms);
-
 void main() {
     unsigned int temperature, x_axis, y_axis, z_axis;
-    
-    lcd_init(); // Initialize LCD
-    buzzer = 0; // Turn off buzzer
-    
+    lcd_init();
+    buzzer = 0;
     while(1) {
-        temperature = analogRead(temp_sensor); // Read temperature value
-        x_axis = analogRead(accel_x); // Read X-axis value
-        y_axis = analogRead(accel_y); // Read Y-axis value
-        z_axis = analogRead(accel_z); // Read Z-axis value
-        
+        temperature = analogRead(temp_sensor);
+        x_axis = analogRead(accel_x);
+        y_axis = analogRead(accel_y);
+        z_axis = analogRead(accel_z);
         lcd_clear();
         lcd_gotoxy(0, 0);
         lcd_printf("Temp: %d", temperature);
         lcd_gotoxy(0, 1);
         lcd_printf("X:%d Y:%d Z:%d", x_axis, y_axis, z_axis);
-        
         if(temperature > THRESHOLD_TEMP || isMovementAbnormal(x_axis, y_axis, z_axis)) {
-            buzzer = 1; // Turn on buzzer
+            buzzer = 1; 
         } else {
-            buzzer = 0; // Turn off buzzer
+            buzzer = 0;
         }
-        
         delay_ms(1000);
     }
 }
-
 unsigned int analogRead(unsigned char pin) {
-    // Simulated analog read function; actual implementation depends on ADC setup
-    return 0; // Placeholder value
+    return 0;
 }
-
 int isMovementAbnormal(unsigned int x, unsigned int y, unsigned int z) {
-    // Placeholder function to determine if movement is abnormal
-    return 0; // Return 1 if abnormal, 0 otherwise
+    return 0;
 }
-
 void delay_ms(unsigned int ms) {
     unsigned int i, j;
     for(i = 0; i < ms; i++)
